@@ -9,14 +9,15 @@ package project;
  *
  * @author Tu Nguyen
  */
-public class Student extends Person {
+import java.util.Date;
+public class Student extends Person implements Comparable {
+
     private double grade;
+    private Date valid;
 
     public Student(String code, String name, String address) {
         super(code, name, address);
     }
-    
-    
 
     public Student(double grade, String code, String name, String address) {
         super(code, name, address);
@@ -30,14 +31,33 @@ public class Student extends Person {
     public void setGrade(double grade) {
         this.grade = grade;
     }
-    
+
+    public Date getValid() {
+        return valid;
+    }
+
+    public void setValid(Date valid) {
+        this.valid = valid;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString() + "-" + this.grade;
     }
-    
-    //public int compareTo(Student s)
-    //public boolean isValid(Student s)
-            
+
+    @Override
+    public int compareTo(Object o) {
+        Student s = (Student) o;
+        if (this.grade > s.getGrade()) {
+            return 1;
+        } else if (this.grade == s.getGrade()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    //public boolean isValid(Student s){
+        //DateFormat dFormat = new simpleDateFormat("yyyy/MM/dd");
+        
 }
-    

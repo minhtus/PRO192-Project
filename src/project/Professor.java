@@ -16,7 +16,9 @@ public class Professor extends Person{
     private EducationLevel edu;
     private String[] Student;
     private int count;
-    private static int basicSalary;
+    private static int basicSalary = 1000;
+    private static int STEP;
+    private static double COF = 0.3;
 
     public Professor(String code, String name, String address) {
         super(code, name, address);
@@ -78,13 +80,15 @@ public class Professor extends Person{
     public void setCount(int count) {
         this.count = count;
     }
-    
-    public static double realSalary(Professor p){
-        
-        //double realSalary = basicSalary * (experience/STEP) * COF * SUPPOS * SUPLEV;
+     
+    public double realSalary(Professor p){
+       double realSalary = basicSalary +  basicSalary * (experience/STEP) * COF * p.getPos().getSUPPOS() * p.getEdu().getSUPLEV();
         return realSalary;
     }
     
-    
+        @Override
+    public String toString(){
+        return super.toString() + " | " + this.experience + " | " + realSalary(this);
+    }
     
 }

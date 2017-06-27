@@ -10,5 +10,16 @@ package project;
  * @author Tu Nguyen
  */
 public enum PositionEnum {
-    PROFESSOR, ASSOCIATE_PROFESSOR, HONOR_PROFESSOR;
+    PROFESSOR (1.25), ASSOCIATE_PROFESSOR(0.5), HONOR_PROFESSOR(0.75);
+    
+    private double SUPPOS;
+
+    private PositionEnum(double SUPPOS) {
+        this.SUPPOS = SUPPOS;
+    }
+
+    public double getSUPPOS() {
+        return SUPPOS;
+    }
+    
 }

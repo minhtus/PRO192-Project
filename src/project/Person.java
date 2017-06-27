@@ -56,6 +56,6 @@ public class Person {
     
     @Override
     public String toString(){
-        return this.code + "-" + this.name + "-" + this.address;
+        return this.code + " | " + this.name + " | " + this.address;
     }
 }

@@ -10,5 +10,17 @@ package project;
  * @author Tu Nguyen
  */
 public enum EducationLevel {
-    BACHELOR, MASATER, DOCTOR;
+    BACHELOR(1) , MASTER (0.1), DOCTOR(0.25);
+    
+    private double SUPLEV;
+
+    private EducationLevel(double SUPLEV) {
+        this.SUPLEV = SUPLEV;
+    }
+
+    public double getSUPLEV() {
+        return SUPLEV;
+    }
+    
+    
 }

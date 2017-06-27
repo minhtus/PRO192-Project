@@ -10,6 +10,7 @@ package project;
  * @author Tu Nguyen
  */
 import java.util.Date;
+import java.util.Calendar;
 public class Student extends Person implements Comparable {
 
     private double grade;
@@ -42,7 +43,7 @@ public class Student extends Person implements Comparable {
 
     @Override
     public String toString() {
-        return super.toString() + "-" + this.grade;
+        return super.toString() + " | " + this.grade;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class Student extends Person implements Comparable {
         }
     }
 
-    //public boolean isValid(Student s){
-        //DateFormat dFormat = new simpleDateFormat("yyyy/MM/dd");
+    public boolean isValid(Student s){
+        Date d = new DateAndTime().getCurrentTime();
         
 }

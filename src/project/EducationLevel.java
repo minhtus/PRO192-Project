@@ -10,7 +10,7 @@ package project;
  * @author Tu Nguyen
  */
 public enum EducationLevel {
-    BACHELOR(1) , MASTER (0.1), DOCTOR(0.25);
+    BACHELOR(0) , MASTER (0.1), DOCTOR(0.25);
     
     private double SUPLEV;
 

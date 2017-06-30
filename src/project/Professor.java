@@ -5,31 +5,50 @@
  */
 package project;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  *
- * @author Tu Nguyen
+ * @author Tu Nguyen, NhanTTSE63103
  */
 public class Professor extends Person{
     private int experience;
-    private int basicsalary = 1000;
+    private int basicSalary = 1000;
     private PositionEnum pos;
     private EducationLevel edu;
-    private String[] Student;
+    private ArrayList<Person> arr;
     private int count;
-    private static int basicSalary = 1000;
-    private static int STEP;
+    private static int STEP = 3;
     private static double COF = 0.3;
+    
+    {
+        // inital block
+        experience = 0;
+        pos = PositionEnum.PROFESSOR;
+        edu = EducationLevel.BACHELOR;
+        arr = new ArrayList<>();
+        count = 0;
+    }
+
+    public Professor() {
+    }
 
     public Professor(String code, String name, String address) {
         super(code, name, address);
-    }
+    } 
 
-    public Professor(int experience, PositionEnum pos, EducationLevel edu, String[] Student, int count, String code, String name, String address) {
+    public Professor(int experience, int basicSalary, PositionEnum pos, EducationLevel edu, ArrayList<Person> arr, int count, String code, String name, String address) {
         super(code, name, address);
         this.experience = experience;
+        this.basicSalary = basicSalary;
         this.pos = pos;
         this.edu = edu;
-        this.Student = Student;
+        this.arr = arr;
         this.count = count;
     }
 
@@ -41,12 +60,12 @@ public class Professor extends Person{
         this.experience = experience;
     }
 
-    public int getBasicsalary() {
-        return basicsalary;
+    public int getBasicSalary() {
+        return basicSalary;
     }
 
-    public void setBasicsalary(int basicsalary) {
-        this.basicsalary = basicsalary;
+    public void setBasicSalary(int basicSalary) {
+        this.basicSalary = basicSalary;
     }
 
     public PositionEnum getPos() {
@@ -65,12 +84,12 @@ public class Professor extends Person{
         this.edu = edu;
     }
 
-    public String[] getStudent() {
-        return Student;
+    public ArrayList<Person> getArr() {
+        return arr;
     }
 
-    public void setStudent(String[] Student) {
-        this.Student = Student;
+    public void setArr(ArrayList<Person> arr) {
+        this.arr = arr;
     }
 
     public int getCount() {
@@ -81,14 +100,112 @@ public class Professor extends Person{
         this.count = count;
     }
      
-    public double realSalary(Professor p){
-       double realSalary = basicSalary +  basicSalary * (experience/STEP) * COF * p.getPos().getSUPPOS() * p.getEdu().getSUPLEV();
-        return realSalary;
-    }
-    
-        @Override
+    @Override
     public String toString(){
-        return super.toString() + " | " + this.experience + " | " + realSalary(this);
+        return super.toString() + " | " + this.experience + " | " + getRealSalary(this);
     }
     
+    // Class Method
+    
+    /**
+     * Professor method, calculate real Salary of a professor
+     * @param p A professor object wanted to know it's real salary
+     * @return Real salary of professor p
+     */
+    public static double getRealSalary(Professor p) {
+       return p.basicSalary*(p.experience/STEP)*(1+COF)*(1+p.getPos().getSUPPOS())*(1+p.getEdu().getSUPLEV());
+    }
+    
+    /**
+     * Professor method, calculate annual income of a professor
+     * @param p A professor object wanted to know it's annual income
+     * @return Annual income of professor p
+     */
+    public static double getAnnualIncome(Professor p) {
+        return Professor.getRealSalary(p)*12*(1-Professor.getTAX());
+    }
+    
+    // Manage Student Methods
+    
+    /**
+     * Additional Professor method #1
+     * Parse a line of professor data to this professor's fields
+     * @param s Data string to parse to professor's fields
+     * @return True if parsing successful
+     * @throws project.FormatException
+     */
+    public boolean parseProfessor(String s) throws FormatException {
+        if (s==null || s.length()==0) 
+            throw new FormatException("Empty professor data line");
+        String delimiter = "\\s+\\|\\s+"; // \s+: spaces; \|: vertical bar
+        String[] spl = s.split(delimiter, 8); // take only 8 tokens, separated by '|'
+        if (spl.length < 8) throw new FormatException("Professor line has wrong format"); // wrong format string
+        
+        if (Professor.isCodeStandard(spl[0], "PR")) this.setCode(spl[0]); // may throw FormatException here
+        this.setName(spl[1]);
+        this.setAddress(spl[2]);
+        try {
+            this.setExperience(Integer.parseInt(spl[3]));
+            this.setBasicSalary(Integer.parseInt(spl[4]));
+            this.setPos(PositionEnum.valueOf(spl[5]));
+            this.setEdu(EducationLevel.valueOf(spl[6]));
+            this.setCount(Integer.parseInt(spl[7])); // count is number of student in file, not in arr
+        } catch (Exception e) {
+            throw new FormatException("Error reading professor data!");
+        }
+        return true;
+    }
+    
+    /**
+     * Add a new student to Student List
+     * @param s New student to add to Student List
+     * @return Return true if adding successful
+     */
+    public boolean addStudent(Student s) {
+        if (!this.arr.add(s)) return false; // add method of ArrayList returns a boolean value
+        System.out.println("New student has been added!");
+        return true; 
+    }
+    
+    /**
+     * Access input data file and load all data to professor object
+     * @param f Data file store data to be loaded
+     * @return Return true if loading successful
+     */
+    public boolean addAllStudent(File f) { 
+        ArrayList<Person> tmp = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f)); 
+            String pLine = br.readLine(); // read first line of file: information of professor
+            this.parseProfessor(pLine); // parse pLine to this professor, may throw FormatException here 
+            for (int i=0; i<this.count; ++i) { // start reading student lines
+                String sLine = br.readLine(); // read student lines
+                Student student = new Student();
+                student.parseStudent(sLine); // parse String sLine to Stduent student, may throw exception
+                if (!tmp.add(student)) return false; // adding error
+            } 
+        }  
+        catch (FileNotFoundException ex) { // catch file not found, compile exception
+            System.out.println("File not found!");
+            return false;
+        } catch (IOException ex) { // catch br.readLine() error, compile exception
+            System.out.println("Error reading file!");
+            return false; 
+        } catch (FormatException ex) {
+            System.out.println(ex.getMessage()); // error format of file, runtime exception
+            return false;
+        }
+        
+        this.arr.addAll(tmp);
+        System.out.println("All students from " + f.getName() + " have been added successful!");
+        return true;
+    }
+    
+    ////////////// display method
+    public void displayAllStudents() {
+        System.out.println("*** All students in the list of professor " + this.name + " ***");
+        for (int i=0; i<arr.size(); ++i)
+            System.out.println("No." + i + " || " + arr.get(i).toString());
+        System.out.println("*** End of list");
+    }
 }

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -162,6 +163,8 @@ public class Professor extends Person{
      * @return Return true if adding successful
      */
     public boolean addStudent(Student s) {
+        if (s == null) return false; // not a student
+        /////////////////////////////////////////////////////// check s.code must be unique
         if (!this.arr.add(s)) return false; // add method of ArrayList returns a boolean value
         System.out.println("New student has been added!");
         return true; 
@@ -201,7 +204,27 @@ public class Professor extends Person{
         return true;
     }
     
-    ////////////// display method
+    public Student findStudent(String code) {
+        for (int i=0; i<this.arr.size(); ++i)
+            if (arr.get(i).code.equals(code)) return (Student) arr.get(i);
+        return null;
+    }
+    
+    /**
+     * 
+     */
+    public void updateStudent(String code) {
+        Student st = findStudent(code);
+        if (st == null) {
+            System.out.println("No student " + code + " found!");
+            return;
+        }
+        Student.updateStudent(st);
+    }
+    
+    /**
+     * Display the student list
+     */
     public void displayAllStudents() {
         System.out.println("*** All students in the list of professor " + this.name + " ***");
         for (int i=0; i<arr.size(); ++i)

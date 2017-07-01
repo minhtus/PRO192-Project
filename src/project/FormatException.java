@@ -5,7 +5,7 @@ package project;
  * A custom runtime exception 
  * @author NhanTTSE63103 - Tran Thanh Nhan
  */
-public class FormatException extends Exception {
+public class FormatException extends RuntimeException {
     private String message;
     
     public FormatException() {

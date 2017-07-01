@@ -24,10 +24,21 @@ public class Project {
         Student s = new Student(10, new SimpleDate(20, 10, 2000), "ST000", "name", "address");
         pr.addStudent(s);
         
-        boolean ok = pr.addAllStudent(f);
+        //boolean ok = pr.addAllStudent(f);
         
         pr.displayAllStudents();
-        System.out.println(((Student) pr.getArr().get(pr.getArr().size()-1)).toString());
+        //System.out.println(((Student) pr.getArr().get(pr.getArr().size()-1)).toString());
+        
+        // test newStudent
+        System.out.println("Add a new student");
+        pr.addStudent(Student.newStudent());
+        System.out.println();
+        pr.displayAllStudents();
+        // test updateStudent
+        System.out.println("Update student");
+        pr.updateStudent("ST999");
+        pr.displayAllStudents();
+        
         
         Menu menu = new Menu();
         menu.add("1. Add student");

@@ -12,6 +12,7 @@ package project;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Scanner;
 public class Student extends Person implements Comparable {
 
     private double grade;
@@ -103,5 +104,52 @@ public class Student extends Person implements Comparable {
             throw new FormatException("Error reading student data!");
         }
         return true;
+    }
+    
+    /**
+     * Update name, address, grade, valid of student st
+     * @param st Student to be updated
+     */
+    public static void updateStudent(Student st) {
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.print("Enter student name: ");
+            String name = sc.nextLine(); // Trim name later
+            st.name = name;
+            System.out.print("Enter student address: ");
+            st.address = sc.nextLine();
+            System.out.print("Enter student grade (double): ");
+            st.grade = Double.parseDouble(sc.nextLine());
+            System.out.println("Enter student enrolled date (day/month/year):");
+            System.out.print("Enter day: ");
+            int day = Integer.parseInt(sc.nextLine());
+            System.out.print("Enter month: "); 
+            int month = Integer.parseInt(sc.nextLine());
+            System.out.print("Enter year: ");
+            int year = Integer.parseInt(sc.nextLine());
+            st.valid = new SimpleDate(day, month, year);
+        } catch (FormatException ex) {
+            st = null;
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    /**
+     * Create a new student with data retrieve from keyboard
+     * @return a new student
+     */
+    public static Student newStudent() {
+        Scanner sc = new Scanner(System.in);
+        Student st = new Student();
+        try {
+            System.out.print("Enter student code (STxxx): ");
+            String code = sc.nextLine();
+            if (Person.isCodeStandard(code, "ST")) st.code = code;
+            Student.updateStudent(st);
+        } catch (FormatException ex) {
+            st = null;
+            System.out.println(ex.getMessage());
+        }
+        return st;
     }
 }

@@ -59,6 +59,9 @@ public class Student extends Person implements Comparable {
     }
 
     public boolean isValid(Student s){
-        Date d = new DateAndTime().getCurrentTime();
+        boolean result = true;
+        return result;
+    }
+        
         
 }

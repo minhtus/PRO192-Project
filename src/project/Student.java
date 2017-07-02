@@ -9,15 +9,15 @@ package project;
  *
  * @author Tu Nguyen, NhanTTSE63103
  */
-
 import java.time.LocalDateTime;
-import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Scanner;
+
 public class Student extends Person implements Comparable {
 
     private double grade;
     private SimpleDate valid;
-    
+
     public static final int expireYear = 6;
 
     {
@@ -25,6 +25,7 @@ public class Student extends Person implements Comparable {
         grade = 0.0;
         valid = new SimpleDate(0, 0, 0);
     }
+
     public Student() {
     }
 
@@ -60,7 +61,7 @@ public class Student extends Person implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Object o) {//compare Student by grade
         Student s = (Student) o;
         if (this.grade > s.getGrade()) {
             return 1;
@@ -71,30 +72,66 @@ public class Student extends Person implements Comparable {
         }
     }
 
+    //add another comparator, compare Student by Code
+    public static Comparator compareCode = (Comparator) (Object s1, Object s2) -> {
+        Student st1 = (Student) s1;
+        Student st2 = (Student) s2;
+        if (st1.code.equals(st2.code)) {
+            return 1;
+        } else {
+            return -1;
+        }
+    };
+
+    //add another comparator, compare Student by name
+    public static Comparator compareName = (Comparator) (Object s1, Object s2) -> {
+        Student st1 = (Student) s1;
+        Student st2 = (Student) s2;
+        if (st1.name.equals(st2.name)) {
+            return 1;
+        } else {
+            return -1;
+        }
+    };
+
     /**
      * Check valid date of student
-     * @return Return true if this student has study in no more than 6 year from 'valid' date until now
+     *
+     * @return Return true if this student has study in no more than 6 year from
+     * 'valid' date until now
      */
-    public boolean isValid(){
+    public boolean isValid() {
         LocalDateTime now = LocalDateTime.now();
         int studyYear = now.getYear() - this.valid.getDayOfMonth();
-        if (studyYear > expireYear) return false;
-        if (studyYear < expireYear) return true;
+        if (studyYear > expireYear) {
+            return false;
+        }
+        if (studyYear < expireYear) {
+            return true;
+        }
         // studyYear == expireYear, deeper check valid
-        if (now.getMonthValue() > this.valid.getMonthValue()) return false;
-        if (now.getMonthValue() < this.valid.getMonthValue()) return true;
+        if (now.getMonthValue() > this.valid.getMonthValue()) {
+            return false;
+        }
+        if (now.getMonthValue() < this.valid.getMonthValue()) {
+            return true;
+        }
         // now.month == valid.month, check day of month
         return now.getDayOfMonth() < this.valid.getDayOfMonth();
     }
-    
+
     public boolean parseStudent(String s) throws FormatException {
-        if (s==null || s.length()==0) 
+        if (s == null || s.length() == 0) {
             throw new FormatException("Empty student data line");
+        }
         String delimiter = "\\s+\\|\\s+"; // \s+: spaces; \|: vertical bar
         String[] spl = s.split(delimiter, 5); // take only 5 tokens, separated by '|'
-        if (spl.length < 5) throw new FormatException("Student line has wrong format"); // wrong format string
-        
-        if (Student.isCodeStandard(spl[0], "ST")) this.setCode(spl[0]); // may throw FormatException here
+        if (spl.length < 5) {
+            throw new FormatException("Student line has wrong format"); // wrong format string
+        }
+        if (Student.isCodeStandard(spl[0], "ST")) {
+            this.setCode(spl[0]); // may throw FormatException here
+        }
         this.setName(spl[1]);
         this.setAddress(spl[2]);
         try {
@@ -105,13 +142,14 @@ public class Student extends Person implements Comparable {
         }
         return true;
     }
-    
+
     /**
      * Update name, address, grade, valid of student st
+     *
      * @param st Student to be updated
      * @return True if update successful
      */
-    public static boolean updateStudent(Student st) { 
+    public static boolean updateStudent(Student st) {
         Scanner sc = new Scanner(System.in);
         try {
             System.out.print("Enter student name: ");
@@ -124,21 +162,22 @@ public class Student extends Person implements Comparable {
             System.out.println("Enter student enrolled date (day/month/year):");
             System.out.print("Enter day: ");
             int day = Integer.parseInt(sc.nextLine());
-            System.out.print("Enter month: "); 
+            System.out.print("Enter month: ");
             int month = Integer.parseInt(sc.nextLine());
             System.out.print("Enter year: ");
             int year = Integer.parseInt(sc.nextLine());
             st.valid = new SimpleDate(day, month, year);
         } catch (NumberFormatException ex) {
-            st = null; 
+            st = null;
             System.out.println(ex);
             return false;
         }
         return true;
     }
-    
+
     /**
      * Create a new student with data retrieve from keyboard
+     *
      * @return a new student
      */
     public static Student newStudent() {
@@ -147,8 +186,12 @@ public class Student extends Person implements Comparable {
         try {
             System.out.print("Enter student code (STxxx): ");
             String code = sc.nextLine();
-            if (Person.isCodeStandard(code, "ST")) st.code = code;
-            if (!Student.updateStudent(st)) st = null;
+            if (Person.isCodeStandard(code, "ST")) {
+                st.code = code;
+            }
+            if (!Student.updateStudent(st)) {
+                st = null;
+            }
         } catch (FormatException ex) {
             st = null;
             System.out.println(ex.getMessage());

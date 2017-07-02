@@ -76,7 +76,10 @@ public class Project {
                 case 2: System.out.println("\n=== Remove student ===");
                         menu.displaySubMenu(2);
                         switch (menu.getChoice()) {
-                            case 1: System.out.println("\n--> Remove a student by student code"); break;
+                            case 1: System.out.println("\n--> Remove a student by student code");
+                            String code = sc.nextLine();
+                            pr.removeStudent(code);
+                            break;
                             case 2: System.out.println("\n--> Remove invalid students"); break;
                             default: System.out.println("\nNo option found");
                         } break;

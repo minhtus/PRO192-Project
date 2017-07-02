@@ -109,8 +109,9 @@ public class Student extends Person implements Comparable {
     /**
      * Update name, address, grade, valid of student st
      * @param st Student to be updated
+     * @return True if update successful
      */
-    public static void updateStudent(Student st) {
+    public static boolean updateStudent(Student st) { 
         Scanner sc = new Scanner(System.in);
         try {
             System.out.print("Enter student name: ");
@@ -128,10 +129,12 @@ public class Student extends Person implements Comparable {
             System.out.print("Enter year: ");
             int year = Integer.parseInt(sc.nextLine());
             st.valid = new SimpleDate(day, month, year);
-        } catch (FormatException ex) {
-            st = null;
-            System.out.println(ex.getMessage());
+        } catch (NumberFormatException ex) {
+            st = null; 
+            System.out.println(ex);
+            return false;
         }
+        return true;
     }
     
     /**
@@ -145,7 +148,7 @@ public class Student extends Person implements Comparable {
             System.out.print("Enter student code (STxxx): ");
             String code = sc.nextLine();
             if (Person.isCodeStandard(code, "ST")) st.code = code;
-            Student.updateStudent(st);
+            if (!Student.updateStudent(st)) st = null;
         } catch (FormatException ex) {
             st = null;
             System.out.println(ex.getMessage());

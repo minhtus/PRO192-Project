@@ -163,7 +163,11 @@ public class Professor extends Person{
      * @return Return true if adding successful
      */
     public boolean addStudent(Student s) {
-        if (s == null) return false; // not a student
+        if (s == null) {
+            System.out.println("Error: Wrong data of student!");
+            System.out.println("Add new student fail!");
+            return false;
+        } // not a student
         /////////////////////////////////////////////////////// check s.code must be unique
         if (!this.arr.add(s)) return false; // add method of ArrayList returns a boolean value
         System.out.println("New student has been added!");
@@ -204,6 +208,11 @@ public class Professor extends Person{
         return true;
     }
     
+    /**
+     * Find a specific student by given code
+     * @param code Code of student to find
+     * @return Found student or null
+     */
     public Student findStudent(String code) {
         for (int i=0; i<this.arr.size(); ++i)
             if (arr.get(i).code.equals(code)) return (Student) arr.get(i);
@@ -211,15 +220,23 @@ public class Professor extends Person{
     }
     
     /**
-     * 
+     * Update a student with given code
+     * @param code Code of student to update
      */
     public void updateStudent(String code) {
-        Student st = findStudent(code);
+        Student st = findStudent(code); // student to be updated
         if (st == null) {
             System.out.println("No student " + code + " found!");
             return;
+        } 
+        Student clone = new Student(); // clone student st, in case update fail
+        clone.setCode(st.getCode()); 
+        if (Student.updateStudent(clone)) {
+            st = clone; // update successful, change reference of st to clone, leave old st to Java Gargabe Collection
+            System.out.println("Update student " + st.getCode() + " successful!");
+        } else {
+            System.out.println("Update student " + st.getCode() + " fail!");
         }
-        Student.updateStudent(st);
     }
     
     /**

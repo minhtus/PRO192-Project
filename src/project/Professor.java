@@ -405,7 +405,20 @@ public class Professor extends Person {
      * @param sYear Year to find number of enrolled students
      * @return Number of enrolled students in 'year'
      */ 
-    public int getNumberStudentsOfYear(String sYear) 
+    public int getNumberStudentsOfYear(String sYear) {
+        int count = 0, year = 0;
+        try {
+            year = Integer.parseInt(sYear);
+        } catch (NumberFormatException ex) {
+            System.out.println("Required a number!");
+            return -1;
+        }
+        for (int i=0; i<arr.size(); ++i) {
+            Student st = (Student) arr.get(i);
+            if (st.getValid().getYear() == year) ++count;
+        }
+        return count;
+    }
     
     /**
      * Update information of professor

@@ -6,6 +6,7 @@
 package project;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -14,7 +15,8 @@ import java.util.Scanner;
  */
 public class Project {
     public static void loadFile(Professor pr) {
-        Scanner sc = new Scanner(System.in);
+        File f = new File("initial data.txt");
+        pr.addAllStudent(f);
     }
 
     /**
@@ -52,7 +54,7 @@ public class Project {
         
         Scanner sc = new Scanner(System.in);
         
-        Professor pr  = new Professor(); 
+        Professor pr  = new Professor();  
         
         Project.loadFile(pr); // load initial data to run program
         System.out.println("\n============ Manage Student Program ============");
@@ -67,7 +69,7 @@ public class Project {
                                     pr.addStudent(Student.newStudent());
                                     break;
                             case 2: System.out.println("\n--> Import students from file");
-                                    System.out.print("Enter file name to import: ");
+                                    System.out.print("Enter file name to import (Ex. in_students.txt): ");
                                     File f = new File(sc.nextLine());
                                     if (!pr.addAllStudent(f)) System.out.println("Import students fail!");
                                     break;
@@ -89,15 +91,15 @@ public class Project {
                         menu.displaySubMenu(5);
                         switch (menu.getChoice()) {
                             case 1: System.out.println("\n--> Display students sorted by student code"); // ascending
-                                    //pr.sort student list ascending by code
+                                    pr.sortByCode();
                                     pr.displayAllStudents();
                                     break; 
                             case 2: System.out.println("\n--> Display students sorted by student name"); // ascending
-                                    //pr.sort student list ascending by name
+                                    pr.sortByName();
                                     pr.displayAllStudents();
                                     break;
                             case 3: System.out.println("\n--> Display students sorted by student grade"); // descending
-                                    //pr.sort student list descending by grade
+                                    pr.sortByGrade();
                                     pr.displayAllStudents();
                                     break; 
                             case 4: System.out.println("\n--> Display highest grade students"); break;
@@ -114,7 +116,11 @@ public class Project {
                             case 5: System.out.println("\n--> Display unique student names"); break;
                             default: System.out.println("\nNo option found");
                         } break;
-                case 7: System.out.println("\n=== Export student list to file ==="); break;
+                case 7: System.out.println("\n=== Export student list to file ==="); 
+                        System.out.print("\nEnter file name to export (Ex. out_students.txt): ");
+                        File f = new File(sc.nextLine());
+                        pr.exportTo(f);
+                        break;
                 case 8: System.out.println("\n=== About professor ===");
                         menu.displaySubMenu(8);
                         switch (menu.getChoice()) {

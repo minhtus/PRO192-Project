@@ -9,7 +9,7 @@ package project;
  *
  * @author Tu Nguyen
  */
-public enum EducationLevel {
+public enum EducationLevel { 
     BACHELOR(0) , MASTER (0.1), DOCTOR(0.25);
     
     private double SUPLEV;

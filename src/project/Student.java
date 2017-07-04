@@ -61,7 +61,9 @@ public class Student extends Person implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {//compare Student by grade
+    public int compareTo(Object o) {
+        // compare Student by grade, but cannot use in Collections<Person>
+        // this compareTo can just use in Collections<Student>
         Student s = (Student) o;
         if (this.grade > s.getGrade()) {
             return 1;
@@ -76,22 +78,22 @@ public class Student extends Person implements Comparable {
     public static Comparator compareCode = (Comparator) (Object s1, Object s2) -> {
         Student st1 = (Student) s1;
         Student st2 = (Student) s2;
-        if (st1.code.equals(st2.code)) {
-            return 1;
-        } else {
-            return -1;
-        }
+        return st1.code.compareTo(st2.code);
     };
 
     //add another comparator, compare Student by name
     public static Comparator compareName = (Comparator) (Object s1, Object s2) -> {
         Student st1 = (Student) s1;
         Student st2 = (Student) s2;
-        if (st1.name.equals(st2.name)) {
-            return 1;
-        } else {
-            return -1;
-        }
+        return st1.name.compareTo(st2.name);
+    };
+    
+    public static Comparator compareGrade = (Comparator) (Object s1, Object s2) -> {
+        Student st1 = (Student) s1;
+        Student st2 = (Student) s2;
+        if (st1.grade < st2.grade) return 1;
+        else if (st1.grade > st2.grade) return -1;
+        return 0;
     };
 
     /**

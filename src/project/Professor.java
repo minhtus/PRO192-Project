@@ -6,11 +6,14 @@
 package project;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -130,7 +133,7 @@ public class Professor extends Person {
 
     // Manage Student Methods
     /**
-     * Additional Professor method #1 Parse a line of professor data to this
+     * #1 Additional Professor method: Parse a line of professor data to this
      * professor's fields
      *
      * @param s Data string to parse to professor's fields
@@ -223,7 +226,6 @@ public class Professor extends Person {
      * Remove a specific student by given code
      *
      * @param code Code of student to delete
-     * @return true if remove successful
      */
     public void removeStudent(String code) {
         Student st = findStudent(code); //find student to remove
@@ -258,7 +260,7 @@ public class Professor extends Person {
      */
     public void removeInvalid(){
         int count = 0;
-        System.out.println("Do you want to remove all invalid date Student in list (Y/N)?");
+        System.out.println("Do you want to remove all invalid date students in list (Y/N)?");
         char c;
         Scanner sc = new Scanner(System.in);
         c = sc.next().charAt(0);
@@ -270,10 +272,10 @@ public class Professor extends Person {
                 count++;
             }
         }
-            System.out.println("Remove " + count + " invalid datestudent in list successful");
+            System.out.println("Remove " + count + " invalid date students in list successful");
         }
         else if ( c == 'N' || c == 'n'){
-            System.out.println("Cancel, all student still in list");
+            System.out.println("Cancel, all students still in list");
         }
         else
             System.out.println("Invalid choice!");
@@ -324,5 +326,49 @@ public class Professor extends Person {
             System.out.println("No." + i + " || " + arr.get(i).toString());
         }
         System.out.println("*** End of list");
+    }
+    
+    /**
+     * #2 Additional Professor Method: Sort student list by code
+     */
+    public void sortByCode() {
+        Collections.sort(arr, Student.compareCode);
+    }
+    
+    /**
+     * #3 Additional Professor Method: Sort student list by name
+     */
+    public void sortByName() {
+        Collections.sort(arr, Student.compareName);
+    }
+    
+    /**
+     * Sort student list by grade
+     */
+    public void sortByGrade() {
+        Collections.sort(arr, Student.compareGrade);
+    }
+    
+    /**
+     * Export professor and student list data to file
+     * @param f Destination file to export data
+     */
+    public void exportTo(File f) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            // write professor line
+            bw.write(code + " | " + name + " | " + address + " | " + experience + " | " + basicSalary + " | " + pos + " | " + edu + " | " + arr.size());
+            bw.newLine();
+            // write student lines
+            for (Person p: arr) {
+                Student st = (Student) p;
+                bw.write(st.toString() + " | " + st.getValid().toString());
+                bw.newLine();
+            }
+            bw.close();
+            System.out.println("Export to file '" + f.getName() + "' successful!");
+        } catch (IOException ex) {
+            System.out.println("Error writing file '" + f.getName() + "'!");
+        }
     }
 }

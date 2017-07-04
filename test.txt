@@ -1,0 +1,2 @@
+PR001 | Dawson Parkinson | 4105 Norma Avenue, Dayton, OH, 45402 | 10 | 1200 | PROFESSOR | MASTER | 1
+ST011 | Harry Potter | 4 Privet Drive, England | 8.9 | 1/1/2016

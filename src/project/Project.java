@@ -34,7 +34,8 @@ public class Project {
         menu.add("6. Display statistic");
         menu.add("7. Export student list to file");
         menu.add("8. About professor");
-        menu.add("9. Quit");
+        menu.add("9. More display options");
+        menu.add("10. Quit");
         menu.addSubMenu(1, "1. Add a new student");
         menu.addSubMenu(1, "2. Import student list from file");
         menu.addSubMenu(2, "1. Remove a student");
@@ -51,6 +52,10 @@ public class Project {
         menu.addSubMenu(6, "5. Display unique student names");
         menu.addSubMenu(8, "1. Update informantion of professor");
         menu.addSubMenu(8, "2. Display informantion of professor");
+        menu.addSubMenu(9, "1. Display students have grades higher than average");
+        menu.addSubMenu(9, "2. Display students have grades lower than average");
+        menu.addSubMenu(9, "3. Display n-th year students");
+        menu.addSubMenu(9, "4. Display number of students enrolled in a specific year");
         
         Scanner sc = new Scanner(System.in);
         
@@ -124,10 +129,36 @@ public class Project {
                 case 8: System.out.println("\n=== About professor ===");
                         menu.displaySubMenu(8);
                         switch (menu.getChoice()) {
-                            case 1: System.out.println("\n--> Update information of professor"); break;
-                            case 2: System.out.println("\n--> Display information of professor"); break;
+                            case 1: System.out.println("\n--> Update information of professor"); 
+                                    if(pr.updateProfessor()) 
+                                        System.out.println("Data of professor has been updated successful!");
+                                    break;
+                            case 2: System.out.println("\n--> Display information of professor"); 
+                                    pr.displayProfessor();
+                                    break;
+                            default: System.out.println("\nNo option found");
                         } break;
-                case 9: System.out.println("\n============ Good Bye ============"); return;
+                case 9: System.out.println("\n=== More display options ===");
+                        menu.displaySubMenu(9);
+                        switch (menu.getChoice()) {
+                            case 1: System.out.println("\n--> Display students have grades higher than 5"); 
+                                    pr.displayHigher5();
+                                    break;
+                            case 2: System.out.println("\n--> Display students have grades lower than 5"); 
+                                    pr.displayLower5();
+                                    break;
+                            case 3: System.out.println("\n--> Display n-th year students"); 
+                                    System.out.print("Enter n: ");
+                                    pr.displayNthYearStudent(sc.nextLine());
+                                    break;
+                            case 4: System.out.println("\n--> Display number of students enrolled in a specific year"); 
+                                    System.out.print("Enter year: ");
+                                    int count = pr.getNumberStudentsOfYear(sc.nextLine());
+                                    if (count > -1) System.out.println("Found: " + count + " students.");
+                                    break;
+                            default: System.out.println("\nNo option found"); 
+                        } break;
+                case 10: System.out.println("\n============ Good Bye ============"); return;
                 default: System.out.println("\nNo option found");
             }
         } while (true);

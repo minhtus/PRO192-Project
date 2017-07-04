@@ -88,6 +88,7 @@ public class Student extends Person implements Comparable {
         return st1.name.compareTo(st2.name);
     };
     
+    //add another comparator, compare Student by grade
     public static Comparator compareGrade = (Comparator) (Object s1, Object s2) -> {
         Student st1 = (Student) s1;
         Student st2 = (Student) s2;

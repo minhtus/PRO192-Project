@@ -4,11 +4,11 @@
 - [v] Display number of students enrolled in a given year [1] (display a number)
 - [v] Update information of professor [1] (code, name, ...)
 - [v] Display information of professor [1]
-- Check if new student code has existed or not (to add to student list, used as condition to add new student in professor) [1]
+- [v] Check if new student code has existed or not (to add to student list, used as condition to add new student in professor) [1]
 
 // in student class
-okGrade(): make sure student grades don't exceed 10
+[v] okGrade(): make sure student grades don't exceed 10
 // in simpledate class
-okDate(): make sure the date is valid
+[v] okDate(): make sure the date is valid
 // in person class
 trimName(): beautify person name

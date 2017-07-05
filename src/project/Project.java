@@ -84,14 +84,25 @@ public class Project {
                         menu.displaySubMenu(2);
                         switch (menu.getChoice()) {
                             case 1: System.out.println("\n--> Remove a student by student code");
-                            String code = sc.nextLine();
-                            pr.removeStudent(code);
-                            break;
-                            case 2: System.out.println("\n--> Remove invalid students"); break;
+                                    System.out.print("Enter student code to remove: ");
+                                    String code = sc.nextLine();
+                                    pr.removeStudent(code);
+                                    break;
+                            case 2: System.out.println("\n--> Remove invalid students"); 
+                                    pr.removeInvalid();
+                                    break;
                             default: System.out.println("\nNo option found");
                         } break;
-                case 3: System.out.println("\n=== Update a student ==="); break;
-                case 4: System.out.println("\n=== Find a student ==="); break;
+                case 3: System.out.println("\n=== Update a student ==="); 
+                        System.out.print("Enter student code to update: ");
+                        pr.updateStudent(sc.nextLine());
+                        break;
+                case 4: System.out.println("\n=== Find a student ==="); 
+                        System.out.print("Enter student code to find: ");
+                        Student st = pr.findStudent(sc.nextLine());
+                        if (st != null) System.out.println("Found: " + st.toString());
+                        else System.out.println("No student found!");
+                        break;
                 case 5: System.out.println("\n=== Display students ===");
                         menu.displaySubMenu(5);
                         switch (menu.getChoice()) {

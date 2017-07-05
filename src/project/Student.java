@@ -100,12 +100,11 @@ public class Student extends Person implements Comparable {
     /**
      * Check valid date of student
      *
-     * @return Return true if this student has study in no more than 6 year from
-     * 'valid' date until now
+     * @return Return true if this student has study in no more than 6 year from 'valid' date until now
      */
     public boolean isValid() {
         LocalDateTime now = LocalDateTime.now();
-        int studyYear = now.getYear() - this.valid.getDayOfMonth();
+        int studyYear = now.getYear() - this.valid.getYear(); 
         if (studyYear > expireYear) {
             return false;
         }
@@ -123,6 +122,12 @@ public class Student extends Person implements Comparable {
         return now.getDayOfMonth() < this.valid.getDayOfMonth();
     }
 
+    /**
+     * Parse a string to a student object
+     * @param s String contains data to parse
+     * @return True if parsing successful
+     * @throws FormatException Error parsing data
+     */
     public boolean parseStudent(String s) throws FormatException {
         if (s == null || s.length() == 0) {
             throw new FormatException("Empty student data line");
@@ -139,8 +144,9 @@ public class Student extends Person implements Comparable {
         this.setAddress(spl[2]);
         try {
             this.setGrade(Double.parseDouble(spl[3]));
+            Student.validGrade(this.getGrade());
             this.setValid(SimpleDate.parseSDate(spl[4]));
-        } catch (Exception e) {
+        } catch (NumberFormatException | FormatException e) {
             throw new FormatException("Error reading student data!");
         }
         return true;
@@ -148,33 +154,52 @@ public class Student extends Person implements Comparable {
 
     /**
      * Update name, address, grade, valid of student st
-     *
+     * from 'original' student
      * @param st Student to be updated
+     * @param original Original student object
      * @return True if update successful
      */
-    public static boolean updateStudent(Student st) {
+    public static boolean updateStudent(Student st, Student original) {
         Scanner sc = new Scanner(System.in);
+        if (original != null) System.out.println("NOTE: type 'skip' to skip updating that information!");
         try {
             System.out.print("Enter student name: ");
-            String name = sc.nextLine(); // Trim name later
-            st.name = name;
+            String name = sc.nextLine(); 
+            name = Person.trimName(name);
+            if (!name.equalsIgnoreCase("skip")) st.name = name;
+            else if (original != null) st.name = original.name;
             System.out.print("Enter student address: ");
-            st.address = sc.nextLine();
+            String address = sc.nextLine();
+            if (!address.equalsIgnoreCase("skip")) st.address = address;
+            else if (original != null) st.address = original.address;
             System.out.print("Enter student grade (double): ");
-            st.grade = Double.parseDouble(sc.nextLine());
+            String grade = sc.nextLine();
+            if (!grade.equalsIgnoreCase("skip")) {
+                st.grade = Double.parseDouble(grade);
+                Student.validGrade(st.grade);
+            }
+            else if (original != null) st.grade = original.grade;
             System.out.println("Enter student enrolled date (day/month/year):");
             System.out.print("Enter day: ");
-            int day = Integer.parseInt(sc.nextLine());
+            String sDay = sc.nextLine();
+            int day = 0, month = 0, year = 0;
+            if (!sDay.equalsIgnoreCase("skip")) day = Integer.parseInt(sDay);
+            else if (original != null) day = original.getValid().getDayOfMonth();
             System.out.print("Enter month: ");
-            int month = Integer.parseInt(sc.nextLine());
+            String sMonth = sc.nextLine();
+            if (!sMonth.equalsIgnoreCase("skip")) month = Integer.parseInt(sMonth);
+            else if (original != null) month = original.getValid().getMonthValue();
             System.out.print("Enter year: ");
-            int year = Integer.parseInt(sc.nextLine());
+            String sYear = sc.nextLine();
+            if (!sYear.equalsIgnoreCase("skip")) year = Integer.parseInt(sYear);
+            else if (original != null) year = original.getValid().getYear();
             st.valid = new SimpleDate(day, month, year);
-        } catch (NumberFormatException ex) {
+            SimpleDate.isValidDate(st.valid); // check valid date
+        } catch (NumberFormatException | FormatException ex) {
             st = null;
             System.out.println(ex);
             return false;
-        }
+        } 
         return true;
     }
 
@@ -192,13 +217,34 @@ public class Student extends Person implements Comparable {
             if (Person.isCodeStandard(code, "ST")) {
                 st.code = code;
             }
-            if (!Student.updateStudent(st)) {
+            if (!Student.updateStudent(st, null)) {
                 st = null;
             }
         } catch (FormatException ex) {
             st = null;
             System.out.println(ex.getMessage());
-        }
+        }   
         return st;
+    }
+    
+    /**
+     * Move all data from t to this student
+     * @param t Source student to get data
+     */
+    public void update(Student t) {
+       this.code = t.code;
+       this.name = t.name;
+       this.address = t.address;
+       this.grade = t.grade;
+       this.valid = t.valid;
+    }
+    
+    /**
+     * Check grade must be in range [0, 10]
+     * @param g Grade to be checked
+     * @throws FormatException 
+     */
+    public static void validGrade(Double g) throws FormatException {
+        if (g < 0 || g > 10) throw new FormatException("Error: Grade must be in range: [0..10]!");
     }
 }

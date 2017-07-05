@@ -10,4 +10,6 @@ TNhan:
 
 ********* Require: comment clearly, add javadoc (comment in /**...*/) before each method
 
++++++++++ Note: Update methods: type 'skip' to skip updating that field
+
 ======>>> Update function of each implemented method to switch case of Project.java, test to make sure that method work correctly

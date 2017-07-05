@@ -180,7 +180,13 @@ public class Professor extends Person {
             System.out.println("Add new student fail!");
             return false;
         } // not a student
-        /////////////////////////////////////////////////////// check s.code must be unique
+        try {
+            Professor.isExist(s.getCode(), this.arr);
+        } catch (FormatException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Add new student fail!");
+            return false;
+        } // this code has been used
         if (!this.arr.add(s)) {
             return false; // add method of ArrayList returns a boolean value
         }
@@ -204,6 +210,12 @@ public class Professor extends Person {
                 String sLine = br.readLine(); // read student lines
                 Student student = new Student();
                 student.parseStudent(sLine); // parse String sLine to Stduent student, may throw exception
+                student.setName(Person.trimName(student.getName()));
+                // check code of student
+                Professor.isExist(student.getCode(), tmp);
+                Professor.isExist(student.getCode(), this.arr);
+                // check date of student
+                SimpleDate.isValidDate(student.getValid());
                 if (!tmp.add(student)) {
                     return false; // adding error
                 }
@@ -232,13 +244,13 @@ public class Professor extends Person {
     public void removeStudent(String code) {
         Student st = findStudent(code); //find student to remove
         if (st == null) {
-            System.out.println("No student " + code + "found!");
+            System.out.println("No student " + code + " found!");
         }
         else {
             System.out.println("Do you want to remove student " + code + " (Y/N)?");//confirm
             Scanner sc = new Scanner(System.in);
             char cf;
-            cf = sc.next().charAt(0);
+            cf = sc.nextLine().charAt(0);
             switch (cf) {
                 case 'Y':
                 case 'y':
@@ -253,8 +265,6 @@ public class Professor extends Person {
                     System.out.println("Invalid choice! ");
                     break;
             }
-            sc.close();
-
         }
     }
     /**Remove Invalid Student in list
@@ -265,12 +275,13 @@ public class Professor extends Person {
         System.out.println("Do you want to remove all invalid date students in list (Y/N)?");
         char c;
         Scanner sc = new Scanner(System.in);
-        c = sc.next().charAt(0);
+        c = sc.nextLine().charAt(0);
         if ( c == 'Y' || c == 'y'){
         for (int i=0; i<arr.size(); ++i){
-            if ( ((Student)arr.get(i)).isValid() ){
+            if (!((Student)arr.get(i)).isValid() ){
                 System.out.println("Student " + ((Student)arr.get(i)).name + " is not valid: " + ((Student)arr.get(i)).getValid());
                 arr.remove(arr.get(i));
+                --i;
                 count++;
             }
         }
@@ -311,12 +322,12 @@ public class Professor extends Person {
         }
         Student clone = new Student(); // clone student st, in case update fail
         clone.setCode(st.getCode());
-        if (Student.updateStudent(clone)) {
-            st = clone; // update successful, change reference of st to clone, leave old st to Java Gargabe Collection
+        if (Student.updateStudent(clone, st)) { 
+            st.update(clone); // move all data from clone to st
             System.out.println("Update student " + st.getCode() + " successful!");
         } else {
             System.out.println("Update student " + st.getCode() + " fail!");
-        }
+        }   
     }
 
     /**
@@ -325,7 +336,7 @@ public class Professor extends Person {
     public void displayAllStudents() {
         System.out.println("*** All students in the list of professor " + this.name + " ***");
         for (int i = 0; i < arr.size(); ++i) {
-            System.out.println("No." + i + " || " + arr.get(i).toString());
+            System.out.println("No." + (i+1) + " || " + arr.get(i).toString());
         }
         System.out.println("*** End of list");
     }
@@ -352,7 +363,7 @@ public class Professor extends Person {
     }
     
     /**
-     * Display students who have grades higher or equal to 5 (average grade)
+     * #4 Additional Professor Method: Display students who have grades higher or equal to 5 (average grade)
      */
     public void displayHigher5() {
         System.out.println("*** Students with grades higher than 5 ***");
@@ -365,7 +376,7 @@ public class Professor extends Person {
     }
     
     /**
-     * Display students who have grades lower than 5 (average grade)
+     * #5 Additional Professor Method: Display students who have grades lower than 5 (average grade)
      */
     public void displayLower5() {
         System.out.println("*** Students with grades lower than 5 ***");
@@ -378,8 +389,9 @@ public class Professor extends Person {
     }
     
     /**
+     * #6 Additional Professor Method: 
      * Display students who is in n-th at university
-     * @param nth N-th year students to display
+     * @param sNth N-th year students to display
      */
     public void displayNthYearStudent(String sNth) {
         int nth = 0;
@@ -401,6 +413,7 @@ public class Professor extends Person {
     }
     
     /**
+     * #7 Additional Professor Method: 
      * Get the number of students enrolled in a given year
      * @param sYear Year to find number of enrolled students
      * @return Number of enrolled students in 'year'
@@ -421,46 +434,58 @@ public class Professor extends Person {
     }
     
     /**
+     * #8 Additional Professor Method: 
      * Update information of professor
      * @return Return true if update successful
      */
     public boolean updateProfessor() {
         Professor tmp = new Professor();
         Scanner sc = new Scanner(System.in);
+        boolean skipPos = false, skipEdu = false, skipExp = false, skipBS = false;
         try {
             if (this.code.length() == 0) {
                 System.out.print("Enter professor code (PRxxx): ");
                 tmp.code = sc.nextLine();
                 Person.isCodeStandard(tmp.code, "PR");
             }
+            System.out.println("NOTE: type 'skip' to skip updating that information!");
             System.out.print("Enter professor name: ");
             tmp.name = sc.nextLine();
             System.out.print("Enter professor address: ");
             tmp.address = sc.nextLine();
             System.out.print("Enter professor position: ");
-            tmp.pos = PositionEnum.valueOf(sc.nextLine().toUpperCase());
+            String pos = sc.nextLine().toUpperCase();
+            if (!pos.equalsIgnoreCase("skip")) tmp.pos = PositionEnum.valueOf(pos);
+            else skipPos = true;
             System.out.print("Enter professor edu: ");
-            tmp.edu = EducationLevel.valueOf(sc.nextLine().toUpperCase());
+            String edu = sc.nextLine().toUpperCase();
+            if (!edu.equalsIgnoreCase("skip")) tmp.edu = EducationLevel.valueOf(edu);
+            else skipEdu = true;
             System.out.print("Enter professor experience (int): ");
-            tmp.experience = Integer.parseInt(sc.nextLine());
+            String exp = sc.nextLine();
+            if (!exp.equalsIgnoreCase("skip")) tmp.experience = Integer.parseInt(exp);
+            else skipExp = true;
             System.out.print("Enter professor basic salary: ");
-            tmp.basicSalary = Integer.parseInt(sc.nextLine());
+            String bs = sc.nextLine();
+            if (!bs.equalsIgnoreCase("skip")) tmp.basicSalary = Integer.parseInt(bs);
+            else skipBS = true;
         } catch (FormatException | IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
             System.out.println("Error update professor!");
             return false;
         }
         if (this.code.length() == 0) this.code = tmp.code;
-        this.name = tmp.name;
-        this.address = tmp.address;
-        this.basicSalary = tmp.basicSalary;
-        this.edu = tmp.edu;
-        this.pos = tmp.pos;
-        this.experience = tmp.experience;
+        if (!tmp.name.equalsIgnoreCase("skip")) this.name = tmp.name;
+        if (!tmp.address.equalsIgnoreCase("skip")) this.address = tmp.address;
+        if (!skipBS) this.basicSalary = tmp.basicSalary;
+        if (!skipEdu) this.edu = tmp.edu;
+        if (!skipPos) this.pos = tmp.pos;
+        if (!skipExp) this.experience = tmp.experience;
         return true;
     }
     
     /**
+     * #9 Additional Professor Method: 
      * Display information of professor
      */
     public void displayProfessor() {
@@ -476,6 +501,19 @@ public class Professor extends Person {
         System.out.format("Professor annual income: %.0f\n", Professor.getAnnualIncome(this));
         System.out.println("Professor number of students: " + this.arr.size());
         System.out.println("*** ***");
+    }
+    
+    /**
+     * #10 Additional Professor Method: 
+     * Check if student code 'sCode' is used in student list 'arr'
+     * @param sCode Student code to check exist
+     * @param arr Domain students to check
+     */
+    public static void isExist(String sCode, ArrayList<Person> arr) throws FormatException {
+        for (int i=0; i<arr.size(); ++i) {
+            Student st = (Student) arr.get(i);
+            if (st.getCode().equals(sCode)) throw new FormatException("Error: Duplicate student code found!");
+        }
     }
     
     /**

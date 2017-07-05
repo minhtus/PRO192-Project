@@ -71,8 +71,8 @@ public class Person {
      */
     public static boolean isCodeStandard(String c, String start) throws FormatException {
         FormatException exception = new FormatException();
-        if (start.equals("PR")) exception.setMessage("Wrong professor code format.\nRight format: PRxxx, where xxx is number in [0, 999]");
-        if (start.equals("ST")) exception.setMessage("Wrong student code format.\nRight format: STxxx, where xxx is number in [0, 999]");
+        if (start.equals("PR")) exception.setMessage("Wrong professor code format.\nRight format: PRxxx, where xxx is 3-digit number in [000, 999]");
+        if (start.equals("ST")) exception.setMessage("Wrong student code format.\nRight format: STxxx, where xxx is 3-digit number in [000, 999]");
         if (c==null) throw exception;
         String patt = "(?i)" + start + "(\\d{3})"; // (?i) for incase-sensitve, (\\d{3}) for 3 digits
         if (c.matches(patt)) { // has the right format
@@ -82,5 +82,18 @@ public class Person {
         return true;
     }
     
-    // trim person name
+    /**
+     * Beautify Person name
+     * @param name Name to trim
+     * @return trimmed name
+     */
+    public static String trimName(String name) {
+        name = name.trim(); // remove first and last spaces
+        String delimiter = "\\s+";
+        String[] tokens = name.split(delimiter);
+        name = ""; // construct name in format
+        for (int i=0; i<tokens.length-1; ++i) name = name + tokens[i] + " ";
+        name = name + tokens[tokens.length-1];
+        return name;
+    }
 }

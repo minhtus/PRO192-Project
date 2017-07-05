@@ -293,7 +293,37 @@ public class Professor extends Person {
         else
             System.out.println("Invalid choice!");
     }
+    
+    /**
+     * Update a specific student's address by given code
+     * @param code Code of student to update
+     */
+    public void updateStudentAddress(String code){
+        Student st = findStudent(code);//student to update
+        if ( st == null){
+            System.out.println("No student " + code + " found");
+        }
+        else{
+        Scanner sc = new Scanner(System.in);
+        String update = sc.nextLine();
+        st.setAddress(update);
+        }
+    }
 
+    /**Update a specific student's grade by given code
+     * @param code Code of student to update
+     */
+    public void updateStudentGrade(String code){
+        Student st = findStudent(code);//student to update
+        if ( st == null){
+            System.out.println("No student " + code + " found");
+        }
+        else{
+            Scanner sc = new Scanner(System.in);
+            int update = Integer.parseInt(sc.nextLine());
+            st.setGrade(update);
+        }
+    }
     /**
      * Find a specific student by given code
      *

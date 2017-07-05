@@ -14,6 +14,7 @@ import java.util.Scanner;
  * @author Tu Nguyen
  */
 public class Project {
+
     public static void loadFile(Professor pr) {
         File f = new File("initial data.txt");
         pr.addAllStudent(f);
@@ -24,7 +25,7 @@ public class Project {
      */
     public static void main(String[] args) {
         // test add all student OK - just need to check duplicate student code
-        
+
         Menu menu = new Menu();
         menu.add("1. Add student");
         menu.add("2. Remove student");
@@ -40,6 +41,8 @@ public class Project {
         menu.addSubMenu(1, "2. Import student list from file");
         menu.addSubMenu(2, "1. Remove a student");
         menu.addSubMenu(2, "2. Remove invalid students");
+        menu.addSubMenu(3, "1.Update student address");
+        menu.addSubMenu(3, "2.Update student grade");
         menu.addSubMenu(5, "1. Display students sorted by student code");
         menu.addSubMenu(5, "2. Display students sorted by student name");
         menu.addSubMenu(5, "3. Display students sorted by student grade");
@@ -52,21 +55,26 @@ public class Project {
         menu.addSubMenu(6, "5. Display unique student names");
         menu.addSubMenu(8, "1. Update informantion of professor");
         menu.addSubMenu(8, "2. Display informantion of professor");
+<<<<<<< HEAD
+
+=======
         menu.addSubMenu(9, "1. Display students have grades higher than average");
         menu.addSubMenu(9, "2. Display students have grades lower than average");
         menu.addSubMenu(9, "3. Display n-th year students");
         menu.addSubMenu(9, "4. Display number of students enrolled in a specific year");
         
+>>>>>>> 0e8ccf66a13706fbb62be7201c74a6cdb53b8686
         Scanner sc = new Scanner(System.in);
-        
-        Professor pr  = new Professor();  
-        
+
+        Professor pr = new Professor();
+
         Project.loadFile(pr); // load initial data to run program
         System.out.println("\n============ Manage Student Program ============");
-        
+
         do {
             menu.displayMenu();
             switch (menu.getChoice()) {
+<<<<<<< HEAD
                 case 1: System.out.println("\n=== Add student ===");
                         menu.displaySubMenu(1);
                         switch (menu.getChoice()) {
@@ -91,6 +99,139 @@ public class Project {
                             case 2: System.out.println("\n--> Remove invalid students"); 
                                     pr.removeInvalid();
                                     break;
+=======
+                case 1:
+                    System.out.println("\n=== Add student ===");
+                    menu.displaySubMenu(1);
+                    switch (menu.getChoice()) {
+                        case 1:
+                            System.out.println("\n--> Add new student from keyboard");
+                            pr.addStudent(Student.newStudent());
+                            break;
+                        case 2:
+                            System.out.println("\n--> Import students from file");
+                            System.out.print("Enter file name to import (Ex. in_students.txt): ");
+                            File f = new File(sc.nextLine());
+                            if (!pr.addAllStudent(f)) {
+                                System.out.println("Import students fail!");
+                            }
+                            break;
+                        default:
+                            System.out.println("\nNo option found");
+                    }
+                    break;
+                case 2:
+                    System.out.println("\n=== Remove student ===");
+                    menu.displaySubMenu(2);
+                    switch (menu.getChoice()) {
+                        case 1:
+                            System.out.println("\n--> Remove a student by student code");
+                            String code = sc.nextLine();
+                            pr.removeStudent(code);
+                            break;
+<<<<<<< HEAD
+                        case 2:
+                            System.out.println("\n--> Remove invalid students");
+                            break;
+                        default:
+                            System.out.println("\nNo option found");
+                    }
+                    break;
+                case 3:
+                    System.out.println("\n=== Update a student ===");
+                    menu.displaySubMenu(3);
+                    switch (menu.getChoice()) {
+                        case 1:
+                            System.out.println("Update a student address by student code: ");
+                            String code1 = sc.nextLine();
+                            pr.updateStudentAddress(code1);
+                            break;
+
+                        case 2:
+                            System.out.println("Update a student grade by student code");
+                            String code2 = sc.nextLine();
+                            pr.updateStudentGrade(code2);
+                            break;
+                    }
+                    break;
+                case 5:
+                    System.out.println("\n=== Display students ===");
+                    menu.displaySubMenu(5);
+                    switch (menu.getChoice()) {
+                        case 1:
+                            System.out.println("\n--> Display students sorted by student code"); // ascending
+                            pr.sortByCode();
+                            pr.displayAllStudents();
+                            break;
+                        case 2:
+                            System.out.println("\n--> Display students sorted by student name"); // ascending
+                            pr.sortByName();
+                            pr.displayAllStudents();
+                            break;
+                        case 3:
+                            System.out.println("\n--> Display students sorted by student grade"); // descending
+                            pr.sortByGrade();
+                            pr.displayAllStudents();
+                            break;
+                        case 4:
+                            System.out.println("\n--> Display highest grade students");
+                            break;
+                        case 5:
+                            System.out.println("\n--> Display lowest grade students");
+                            break;
+                        default:
+                            System.out.println("\nNo option found");
+                    }
+                    break;
+                case 6:
+                    System.out.println("\n=== Display statistic ===");
+                    menu.displaySubMenu(6);
+                    switch (menu.getChoice()) {
+                        case 1:
+                            System.out.println("\n--> Display averaga grade");
+                            break;
+                        case 2:
+                            System.out.println("\n--> Display distribution of grade");
+                            break;
+                        case 3:
+                            System.out.println("\n--> Display distinct grade");
+                            break;
+                        case 4:
+                            System.out.println("\n--> Display duplicate student names");
+                            break;
+                        case 5:
+                            System.out.println("\n--> Display unique student names");
+                            break;
+                        default:
+                            System.out.println("\nNo option found");
+                    }
+                    break;
+                case 7:
+                    System.out.println("\n=== Export student list to file ===");
+                    System.out.print("\nEnter file name to export (Ex. out_students.txt): ");
+                    File f = new File(sc.nextLine());
+                    pr.exportTo(f);
+                    break;
+                case 8:
+                    System.out.println("\n=== About professor ===");
+                    menu.displaySubMenu(8);
+                    switch (menu.getChoice()) {
+                        case 1:
+                            System.out.println("\n--> Update information of professor");
+                            break;
+                        case 2:
+                            System.out.println("\n--> Display information of professor");
+                            break;
+                    }
+                    break;
+                case 9:
+                    System.out.println("\n============ Good Bye ============");
+                    return;
+                default:
+                    System.out.println("\nNo option found");
+=======
+                            case 2: System.out.println("\n--> Remove invalid students"); break;
+>>>>>>> origin/TNhan
                             default: System.out.println("\nNo option found");
                         } break;
                 case 3: System.out.println("\n=== Update a student ==="); 
@@ -171,8 +312,9 @@ public class Project {
                         } break;
                 case 10: System.out.println("\n============ Good Bye ============"); return;
                 default: System.out.println("\nNo option found");
+>>>>>>> 0e8ccf66a13706fbb62be7201c74a6cdb53b8686
             }
         } while (true);
     }
-    
+
 }

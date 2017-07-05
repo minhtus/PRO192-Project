@@ -3,10 +3,30 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/E:/Java/Project%20-%20Git/src/project/Professor.java</file>
             <file>file:/E:/Java/Project%20-%20Git/src/project/Project.java</file>
             <file>file:/E:/Java/Project%20-%20Git/src/project/Student.java</file>
             <file>file:/E:/Java/Project%20-%20Git/src/project/PositionEnum.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Person.java</file>
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Professor.java</file>
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Student.java</file>
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Project.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/E:/Java/Project%20-%20Git/src/project/Professor.java</file>
+            <file>file:/E:/Java/Project%20-%20Git/src/project/Project.java</file>
+            <file>file:/E:/Java/Project%20-%20Git/src/project/Student.java</file>
+=======
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/PositionEnum.java</file>
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Person.java</file>
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Professor.java</file>
+            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/Project/src/project/Student.java</file>
+>>>>>>> refs/remotes/origin/master
+>>>>>>> 0e8ccf66a13706fbb62be7201c74a6cdb53b8686
+>>>>>>> origin/TNhan
         </group>
     </open-files>
 </project-private>

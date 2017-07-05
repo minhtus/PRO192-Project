@@ -74,7 +74,6 @@ public class Student extends Person implements Comparable {
         }
     }
 
-<<<<<<< HEAD
     //add another comparator, compare Student by Code
     public static Comparator compareCode = (Comparator) (Object s1, Object s2) -> {
         Student st1 = (Student) s1;
@@ -202,12 +201,4 @@ public class Student extends Person implements Comparable {
         }
         return st;
     }
-=======
-    public boolean isValid(Student s){
-        boolean result = true;
-        return result;
-    }
-        
-        
->>>>>>> refs/remotes/origin/master
 }

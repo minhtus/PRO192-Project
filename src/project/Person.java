@@ -74,16 +74,12 @@ public class Person {
         if (start.equals("PR")) exception.setMessage("Wrong professor code format.\nRight format: PRxxx, where xxx is number in [0, 999]");
         if (start.equals("ST")) exception.setMessage("Wrong student code format.\nRight format: STxxx, where xxx is number in [0, 999]");
         if (c==null) throw exception;
-        if (c.length()==0) throw exception;
-        if (!c.startsWith(start)) throw exception;
-        String suffix = c.substring(2); // get the number after 'start': PR or ST
-        if (suffix.length()==0) throw exception;
-        try {
-            if (Integer.parseInt(suffix) > 999) throw exception; // exceed 999
-        } catch (NumberFormatException e) { // runtime exception
-            throw exception;
-        }
-        return true;    // code c in right format
+        String patt = "(?i)" + start + "(\\d{3})"; // (?i) for incase-sensitve, (\\d{3}) for 3 digits
+        if (c.matches(patt)) { // has the right format
+            int num = Integer.parseInt(c.replaceAll(patt, "$1")); // get the number after 'start'
+            if (num > 999) throw exception; // exceed 999
+        } else throw exception;
+        return true;
     }
     
     // trim person name

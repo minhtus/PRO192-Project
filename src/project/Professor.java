@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -33,6 +34,7 @@ public class Professor extends Person {
 
     {
         // inital block
+        code = "";
         experience = 0;
         pos = PositionEnum.PROFESSOR;
         edu = EducationLevel.BACHELOR;
@@ -377,6 +379,133 @@ public class Professor extends Person {
      */
     public void sortByGrade() {
         Collections.sort(arr, Student.compareGrade);
+    }
+    
+    /**
+     * Display students who have grades higher or equal to 5 (average grade)
+     */
+    public void displayHigher5() {
+        System.out.println("*** Students with grades higher than 5 ***");
+        int count = 0;
+        for (int i = 0; i < arr.size(); ++i) {
+            Student st = (Student) arr.get(i);
+            if (st.getGrade()>=5) System.out.println("No." + (++count) + " || " + st.toString());
+        }
+        System.out.println("*** End of list");
+    }
+    
+    /**
+     * Display students who have grades lower than 5 (average grade)
+     */
+    public void displayLower5() {
+        System.out.println("*** Students with grades lower than 5 ***");
+        int count = 0;
+        for (int i = 0; i < arr.size(); ++i) {
+            Student st = (Student) arr.get(i);
+            if (st.getGrade()<5) System.out.println("No." + (++count) + " || " + st.toString());
+        }
+        System.out.println("*** End of list");
+    }
+    
+    /**
+     * Display students who is in n-th at university
+     * @param nth N-th year students to display
+     */
+    public void displayNthYearStudent(String sNth) {
+        int nth = 0;
+        try {
+            nth = Integer.parseInt(sNth);
+        } catch (NumberFormatException ex) {
+            System.out.println("Require number!");
+            return;
+        }
+        System.out.println("*** " + nth + "-th year students ***");
+        int count = 0;
+        LocalDateTime now = LocalDateTime.now();
+        int year = now.getYear();
+        for (int i = 0; i < arr.size(); ++i) {
+            Student st = (Student) arr.get(i);
+            if (year - st.getValid().getYear() + 1 == nth) System.out.println("No." + (++count) + " || " + st.toString());
+        }
+        System.out.println("*** End of list");
+    }
+    
+    /**
+     * Get the number of students enrolled in a given year
+     * @param sYear Year to find number of enrolled students
+     * @return Number of enrolled students in 'year'
+     */ 
+    public int getNumberStudentsOfYear(String sYear) {
+        int count = 0, year = 0;
+        try {
+            year = Integer.parseInt(sYear);
+        } catch (NumberFormatException ex) {
+            System.out.println("Required a number!");
+            return -1;
+        }
+        for (int i=0; i<arr.size(); ++i) {
+            Student st = (Student) arr.get(i);
+            if (st.getValid().getYear() == year) ++count;
+        }
+        return count;
+    }
+    
+    /**
+     * Update information of professor
+     * @return Return true if update successful
+     */
+    public boolean updateProfessor() {
+        Professor tmp = new Professor();
+        Scanner sc = new Scanner(System.in);
+        try {
+            if (this.code.length() == 0) {
+                System.out.print("Enter professor code (PRxxx): ");
+                tmp.code = sc.nextLine();
+                Person.isCodeStandard(tmp.code, "PR");
+            }
+            System.out.print("Enter professor name: ");
+            tmp.name = sc.nextLine();
+            System.out.print("Enter professor address: ");
+            tmp.address = sc.nextLine();
+            System.out.print("Enter professor position: ");
+            tmp.pos = PositionEnum.valueOf(sc.nextLine().toUpperCase());
+            System.out.print("Enter professor edu: ");
+            tmp.edu = EducationLevel.valueOf(sc.nextLine().toUpperCase());
+            System.out.print("Enter professor experience (int): ");
+            tmp.experience = Integer.parseInt(sc.nextLine());
+            System.out.print("Enter professor basic salary: ");
+            tmp.basicSalary = Integer.parseInt(sc.nextLine());
+        } catch (FormatException | IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Error update professor!");
+            return false;
+        }
+        if (this.code.length() == 0) this.code = tmp.code;
+        this.name = tmp.name;
+        this.address = tmp.address;
+        this.basicSalary = tmp.basicSalary;
+        this.edu = tmp.edu;
+        this.pos = tmp.pos;
+        this.experience = tmp.experience;
+        return true;
+    }
+    
+    /**
+     * Display information of professor
+     */
+    public void displayProfessor() {
+        System.out.println("*** Information of professor ***");
+        System.out.println("Professor code: " + this.code);
+        System.out.println("Professor name: " + this.name);
+        System.out.println("Professor address: " + this.address);
+        System.out.println("Professor postition: " + this.pos);
+        System.out.println("Professor education level: " + this.edu);
+        System.out.println("Professor experience: " + this.experience);
+        System.out.println("Professor basic salary: " + this.basicSalary);
+        System.out.format("Professor real salary: %.0f\n", Professor.getRealSalary(this));
+        System.out.format("Professor annual income: %.0f\n", Professor.getAnnualIncome(this));
+        System.out.println("Professor number of students: " + this.arr.size());
+        System.out.println("*** ***");
     }
     
     /**

@@ -85,6 +85,6 @@ public class SimpleDate {
             if (year%400 == 0) maxD = 29;
             if (year%100 != 0 && year%4==0) maxD = 29;
         }
-        if (day < 0 || day > 12) throw ex;
+        if (day < 0 || day > maxD) throw ex;
     }
 }

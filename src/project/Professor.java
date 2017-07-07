@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 /**
  *
@@ -220,6 +223,7 @@ public class Professor extends Person {
                     return false; // adding error
                 }
             }
+            br.close(); // close file after reading
         } catch (FileNotFoundException ex) { // catch file not found, compile exception
             System.out.println("File not found!");
             return false;
@@ -245,8 +249,7 @@ public class Professor extends Person {
         Student st = findStudent(code); //find student to remove
         if (st == null) {
             System.out.println("No student " + code + " found!");
-        }
-        else {
+        } else {
             System.out.println("Do you want to remove student " + code + " (Y/N)?");//confirm
             Scanner sc = new Scanner(System.in);
             char cf;
@@ -267,33 +270,34 @@ public class Professor extends Person {
             }
         }
     }
-    /**Remove Invalid Student in list
-     * 
+
+    /**
+     * Remove Invalid Student in list
+     *
      */
-    public void removeInvalid(){
+    public void removeInvalid() {
         int count = 0;
         System.out.println("Do you want to remove all invalid date students in list (Y/N)?");
         char c;
         Scanner sc = new Scanner(System.in);
         c = sc.nextLine().charAt(0);
-        if ( c == 'Y' || c == 'y'){
-        for (int i=0; i<arr.size(); ++i){
-            if (!((Student)arr.get(i)).isValid() ){
-                System.out.println("Student " + ((Student)arr.get(i)).name + " is not valid: " + ((Student)arr.get(i)).getValid());
-                arr.remove(arr.get(i));
-                --i;
-                count++;
+        if (c == 'Y' || c == 'y') {
+            for (int i = 0; i < arr.size(); ++i) {
+                if (!((Student) arr.get(i)).isValid()) {
+                    System.out.println("Student " + ((Student) arr.get(i)).name + " is not valid: " + ((Student) arr.get(i)).getValid());
+                    arr.remove(arr.get(i));
+                    --i;
+                    count++;
+                }
             }
-        }
             System.out.println("Remove " + count + " invalid date students in list successful");
-        }
-        else if ( c == 'N' || c == 'n'){
+        } else if (c == 'N' || c == 'n') {
             System.out.println("Cancel, all students still in list");
-        }
-        else
+        } else {
             System.out.println("Invalid choice!");
+        }
     }
-    
+
     /**
      * Find a specific student by given code
      *
@@ -322,12 +326,12 @@ public class Professor extends Person {
         }
         Student clone = new Student(); // clone student st, in case update fail
         clone.setCode(st.getCode());
-        if (Student.updateStudent(clone, st)) { 
+        if (Student.updateStudent(clone, st)) {
             st.update(clone); // move all data from clone to st
             System.out.println("Update student " + st.getCode() + " successful!");
         } else {
             System.out.println("Update student " + st.getCode() + " fail!");
-        }   
+        }
     }
 
     /**
@@ -336,61 +340,112 @@ public class Professor extends Person {
     public void displayAllStudents() {
         System.out.println("*** All students in the list of professor " + this.name + " ***");
         for (int i = 0; i < arr.size(); ++i) {
-            System.out.println("No." + (i+1) + " || " + arr.get(i).toString());
+            System.out.println("No." + (i + 1) + " || " + arr.get(i).toString());
         }
         System.out.println("*** End of list");
     }
-    
+
     /**
      * #2 Additional Professor Method: Sort student list by code
      */
     public void sortByCode() {
         Collections.sort(arr, Student.compareCode);
     }
-    
+
     /**
      * #3 Additional Professor Method: Sort student list by name
      */
     public void sortByName() {
         Collections.sort(arr, Student.compareName);
     }
-    
+
     /**
      * Sort student list by grade
      */
     public void sortByGrade() {
         Collections.sort(arr, Student.compareGrade);
     }
+
+    /**
+     * Display student who have highest grade
+     */
+    public void displayHigestGradeStudent() {
+        Student st = (Student) Collections.max(arr, Student.compareGrade);
+        System.out.println(st.toString());
+    }
+
+    /**
+     * Display student who have lowest grade
+     */
+    public void displayLowestGradeStudent() {
+        Student st = (Student) Collections.min(arr, Student.compareGrade);
+        System.out.println(st.toString());
+    }
     
     /**
-     * #4 Additional Professor Method: Display students who have grades higher or equal to 5 (average grade)
+     * Display average grade
+     */
+    public void displayAverageGrade(){
+        System.out.print("Average grade of all students: ");
+        double sum = 0;
+        for ( int i = 0; i<arr.size(); ++i){
+            sum += ((Student)arr.get(i)).getGrade();
+        }
+        System.out.format("%.2f\n", sum/(arr.size()));
+    }
+    
+    /**
+     * Display distribution of grade
+     */
+    public void displayDistributionOfGrade(){
+        System.out.println("Distribution of grade: ");
+        TreeSet grades = new TreeSet();
+        for ( int i = 0; i<arr.size(); ++i){
+            grades.add(((Student)arr.get(i)).getGrade());
+        }
+        Collections.sort((List<Student>) grades, Student.compareGrade);
+        Iterator it = grades.iterator();
+        while(it.hasNext())
+            System.out.println(it.next() + ", ");
+        
+    }
+
+    /**
+     * #4 Additional Professor Method: Display students who have grades higher
+     * or equal to 5 (average grade)
      */
     public void displayHigher5() {
         System.out.println("*** Students with grades higher than 5 ***");
         int count = 0;
         for (int i = 0; i < arr.size(); ++i) {
             Student st = (Student) arr.get(i);
-            if (st.getGrade()>=5) System.out.println("No." + (++count) + " || " + st.toString());
+            if (st.getGrade() >= 5) {
+                System.out.println("No." + (++count) + " || " + st.toString());
+            }
         }
         System.out.println("*** End of list");
     }
-    
+
     /**
-     * #5 Additional Professor Method: Display students who have grades lower than 5 (average grade)
+     * #5 Additional Professor Method: Display students who have grades lower
+     * than 5 (average grade)
      */
     public void displayLower5() {
         System.out.println("*** Students with grades lower than 5 ***");
         int count = 0;
         for (int i = 0; i < arr.size(); ++i) {
             Student st = (Student) arr.get(i);
-            if (st.getGrade()<5) System.out.println("No." + (++count) + " || " + st.toString());
+            if (st.getGrade() < 5) {
+                System.out.println("No." + (++count) + " || " + st.toString());
+            }
         }
         System.out.println("*** End of list");
     }
-    
+
     /**
-     * #6 Additional Professor Method: 
-     * Display students who is in n-th at university
+     * #6 Additional Professor Method: Display students who is in n-th at
+     * university
+     *
      * @param sNth N-th year students to display
      */
     public void displayNthYearStudent(String sNth) {
@@ -407,17 +462,20 @@ public class Professor extends Person {
         int year = now.getYear();
         for (int i = 0; i < arr.size(); ++i) {
             Student st = (Student) arr.get(i);
-            if (year - st.getValid().getYear() + 1 == nth) System.out.println("No." + (++count) + " || " + st.toString());
+            if (year - st.getValid().getYear() + 1 == nth) {
+                System.out.println("No." + (++count) + " || " + st.toString());
+            }
         }
         System.out.println("*** End of list");
     }
-    
+
     /**
-     * #7 Additional Professor Method: 
-     * Get the number of students enrolled in a given year
+     * #7 Additional Professor Method: Get the number of students enrolled in a
+     * given year
+     *
      * @param sYear Year to find number of enrolled students
      * @return Number of enrolled students in 'year'
-     */ 
+     */
     public int getNumberStudentsOfYear(String sYear) {
         int count = 0, year = 0;
         try {
@@ -426,16 +484,18 @@ public class Professor extends Person {
             System.out.println("Required a number!");
             return -1;
         }
-        for (int i=0; i<arr.size(); ++i) {
+        for (int i = 0; i < arr.size(); ++i) {
             Student st = (Student) arr.get(i);
-            if (st.getValid().getYear() == year) ++count;
+            if (st.getValid().getYear() == year) {
+                ++count;
+            }
         }
         return count;
     }
-    
+
     /**
-     * #8 Additional Professor Method: 
-     * Update information of professor
+     * #8 Additional Professor Method: Update information of professor
+     *
      * @return Return true if update successful
      */
     public boolean updateProfessor() {
@@ -455,38 +515,63 @@ public class Professor extends Person {
             tmp.address = sc.nextLine();
             System.out.print("Enter professor position: ");
             String pos = sc.nextLine().toUpperCase();
-            if (!pos.equalsIgnoreCase("skip")) tmp.pos = PositionEnum.valueOf(pos);
-            else skipPos = true;
+            if (!pos.equalsIgnoreCase("skip")) {
+                tmp.pos = PositionEnum.valueOf(pos);
+            } else {
+                skipPos = true;
+            }
             System.out.print("Enter professor edu: ");
             String edu = sc.nextLine().toUpperCase();
-            if (!edu.equalsIgnoreCase("skip")) tmp.edu = EducationLevel.valueOf(edu);
-            else skipEdu = true;
+            if (!edu.equalsIgnoreCase("skip")) {
+                tmp.edu = EducationLevel.valueOf(edu);
+            } else {
+                skipEdu = true;
+            }
             System.out.print("Enter professor experience (int): ");
             String exp = sc.nextLine();
-            if (!exp.equalsIgnoreCase("skip")) tmp.experience = Integer.parseInt(exp);
-            else skipExp = true;
+            if (!exp.equalsIgnoreCase("skip")) {
+                tmp.experience = Integer.parseInt(exp);
+            } else {
+                skipExp = true;
+            }
             System.out.print("Enter professor basic salary: ");
             String bs = sc.nextLine();
-            if (!bs.equalsIgnoreCase("skip")) tmp.basicSalary = Integer.parseInt(bs);
-            else skipBS = true;
+            if (!bs.equalsIgnoreCase("skip")) {
+                tmp.basicSalary = Integer.parseInt(bs);
+            } else {
+                skipBS = true;
+            }
         } catch (FormatException | IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
             System.out.println("Error update professor!");
             return false;
         }
-        if (this.code.length() == 0) this.code = tmp.code;
-        if (!tmp.name.equalsIgnoreCase("skip")) this.name = tmp.name;
-        if (!tmp.address.equalsIgnoreCase("skip")) this.address = tmp.address;
-        if (!skipBS) this.basicSalary = tmp.basicSalary;
-        if (!skipEdu) this.edu = tmp.edu;
-        if (!skipPos) this.pos = tmp.pos;
-        if (!skipExp) this.experience = tmp.experience;
+        if (this.code.length() == 0) {
+            this.code = tmp.code;
+        }
+        if (!tmp.name.equalsIgnoreCase("skip")) {
+            this.name = tmp.name;
+        }
+        if (!tmp.address.equalsIgnoreCase("skip")) {
+            this.address = tmp.address;
+        }
+        if (!skipBS) {
+            this.basicSalary = tmp.basicSalary;
+        }
+        if (!skipEdu) {
+            this.edu = tmp.edu;
+        }
+        if (!skipPos) {
+            this.pos = tmp.pos;
+        }
+        if (!skipExp) {
+            this.experience = tmp.experience;
+        }
         return true;
     }
-    
+
     /**
-     * #9 Additional Professor Method: 
-     * Display information of professor
+     * #9 Additional Professor Method: Display information of professor
      */
     public void displayProfessor() {
         System.out.println("*** Information of professor ***");
@@ -502,22 +587,26 @@ public class Professor extends Person {
         System.out.println("Professor number of students: " + this.arr.size());
         System.out.println("*** ***");
     }
-    
+
     /**
-     * #10 Additional Professor Method: 
-     * Check if student code 'sCode' is used in student list 'arr'
+     * #10 Additional Professor Method: Check if student code 'sCode' is used in
+     * student list 'arr'
+     *
      * @param sCode Student code to check exist
      * @param arr Domain students to check
      */
     public static void isExist(String sCode, ArrayList<Person> arr) throws FormatException {
-        for (int i=0; i<arr.size(); ++i) {
+        for (int i = 0; i < arr.size(); ++i) {
             Student st = (Student) arr.get(i);
-            if (st.getCode().equals(sCode)) throw new FormatException("Error: Duplicate student code found!");
+            if (st.getCode().equals(sCode)) {
+                throw new FormatException("Error: Duplicate student code found!");
+            }
         }
     }
-    
+
     /**
      * Export professor and student list data to file
+     *
      * @param f Destination file to export data
      */
     public void exportTo(File f) {
@@ -527,7 +616,7 @@ public class Professor extends Person {
             bw.write(code + " | " + name + " | " + address + " | " + experience + " | " + basicSalary + " | " + pos + " | " + edu + " | " + arr.size());
             bw.newLine();
             // write student lines
-            for (Person p: arr) {
+            for (Person p : arr) {
                 Student st = (Student) p;
                 bw.write(st.toString() + " | " + st.getValid().toString());
                 bw.newLine();

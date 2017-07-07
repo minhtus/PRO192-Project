@@ -44,8 +44,8 @@ public class ManageProgram {
         menu.addSubMenu(5, "1. Display students sorted by student code");
         menu.addSubMenu(5, "2. Display students sorted by student name");
         menu.addSubMenu(5, "3. Display students sorted by student grade");
-        menu.addSubMenu(5, "4. Display high grade students");
-        menu.addSubMenu(5, "5. Display low grade students");
+        menu.addSubMenu(5, "4. Display highest grade students");
+        menu.addSubMenu(5, "5. Display lowest grade students");
         menu.addSubMenu(6, "1. Display average grade");
         menu.addSubMenu(6, "2. Display distribution of grade");
         menu.addSubMenu(6, "3. Display distinct grade");

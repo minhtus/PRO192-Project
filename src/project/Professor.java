@@ -370,7 +370,7 @@ public class Professor extends Person {
      */
     public void displayHigestGradeStudent() {
         System.out.println("Students who has highest grade: ");
-        Student st = (Student) Collections.max(arr, Student.compareGrade);//find max grade
+        Student st = (Student) Collections.min(arr, Student.compareGrade);//find max grade ( array sort descending)
         for (int i = 0; i<arr.size(); ++i){
             if ( st.getGrade() == ((Student)arr.get(i)).getGrade()){
                 System.out.println(((Student)arr.get(i)).toString());//Check if any others student have the same highest grade
@@ -382,7 +382,7 @@ public class Professor extends Person {
      * Display student who have lowest grade
      */
     public void displayLowestGradeStudent() {
-        Student st = (Student) Collections.min(arr, Student.compareGrade);//find min grade
+        Student st = (Student) Collections.max(arr, Student.compareGrade);//find min grade ( array sort descending)
         for (int i = 0; i<arr.size(); ++i){
             if ( st.getGrade() == ((Student)arr.get(i)).getGrade()){
                 System.out.println(((Student)arr.get(i)).toString());//Check if any others student have the same highest grade
@@ -482,7 +482,7 @@ public class Professor extends Person {
             String key = (String)(it.next());
             int value = (Integer)(name.get(key));
             if ( value == 1){
-                System.out.println("Name: "  + key + " is duplicate " + value + " times.");//Print out which name appear more than 1 time
+                System.out.println("Name: "  + key + " is unique");//Print out which name appear more than 1 time
             }
         }
     }

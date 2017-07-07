@@ -209,24 +209,24 @@ public class Professor extends Person {
             String pLine = br.readLine(); // read first line of file: information of professor
             this.parseProfessor(pLine); // parse pLine to this professor, may throw FormatException here 
             for (int i = 0; i < this.count; ++i) { // start reading student lines
-                String sLine = br.readLine(); // read student lines
                 Student student = new Student();
-                student.parseStudent(sLine); // parse String sLine to Stduent student, may throw exception
-                student.setName(Person.trimName(student.getName()));
-                // check code of student
-                Professor.isExist(student.getCode(), tmp);
-                Professor.isExist(student.getCode(), this.arr);
-                // check date of student
-                SimpleDate.isValidDate(student.getValid());
-                if (!tmp.add(student)) {
-                    return false; // adding error
+                try { // check data of this student to add
+                    String sLine = br.readLine(); // read student lines
+                    student.parseStudent(sLine); // parse String sLine to Stduent student, may throw exception
+                    student.setName(Person.trimName(student.getName()));
+                    // check code of student
+                    Professor.isExist(student.getCode(), tmp);
+                    Professor.isExist(student.getCode(), this.arr);
+                    // check date of student
+                    SimpleDate.isValidDate(student.getValid());
+                    if (!tmp.add(student)) {
+                        return false; // adding error
+                    }
+                } catch (FormatException ex) {
+                    System.out.println("Error data at line: " + (i+2) + "!");
                 }
             }
-<<<<<<< HEAD
             br.close(); // close file after reading
-=======
-            br.close();
->>>>>>> origin/Third
         } catch (FileNotFoundException ex) { // catch file not found, compile exception
             System.out.println("File not found!");
             return false;
@@ -372,7 +372,7 @@ public class Professor extends Person {
     /**
      * Display student who have highest grade
      */
-    public void displayHigestGradeStudent() {
+    public void displayHigestGradeStudents() {
         System.out.println("Students who has highest grade: ");
         Student st = (Student) Collections.min(arr, Student.compareGrade);//find max grade ( array sort descending)
         for (int i = 0; i<arr.size(); ++i){
@@ -385,7 +385,7 @@ public class Professor extends Person {
     /**
      * Display student who have lowest grade
      */
-    public void displayLowestGradeStudent() {
+    public void displayLowestGradeStudents() {
         Student st = (Student) Collections.max(arr, Student.compareGrade);//find min grade ( array sort descending)
         for (int i = 0; i<arr.size(); ++i){
             if ( st.getGrade() == ((Student)arr.get(i)).getGrade()){
@@ -403,11 +403,7 @@ public class Professor extends Person {
         for ( int i = 0; i<arr.size(); ++i){
             sum += ((Student)arr.get(i)).getGrade();//sum all grade of students
         }
-<<<<<<< HEAD
-        System.out.format("%.2f\n", sum/(arr.size()));
-=======
-        System.out.println(sum/(arr.size()));//and then divide to number of students
->>>>>>> origin/Third
+        System.out.format("%.2f\n", sum/(arr.size())); //and then divide to number of students
     }
     
     /**

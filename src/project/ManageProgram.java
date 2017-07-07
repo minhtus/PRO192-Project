@@ -142,11 +142,11 @@ public class ManageProgram {
                             break;
                         case 4:
                             System.out.println("\n--> Display highest grade students");
-                            pr.displayHigestGradeStudent();
+                            pr.displayHigestGradeStudents();
                             break;
                         case 5:
                             System.out.println("\n--> Display lowest grade students");
-                            pr.displayLowestGradeStudent();
+                            pr.displayLowestGradeStudents();
                             break;
                         default:
                             System.out.println("\nNo option found");
@@ -162,18 +162,22 @@ public class ManageProgram {
                             break;
                         case 2:
                             System.out.println("\n--> Display distribution of grade");
+                            pr.sortByGrade();
                             pr.displayDistributionOfGrade();
                             break;
                         case 3:
                             System.out.println("\n--> Display distinct grade");
+                            pr.sortByGrade();
                             pr.displayDistinctGrade();
                             break;
                         case 4:
                             System.out.println("\n--> Display duplicate student names");
+                            pr.sortByName();
                             pr.dupStudentName();
                             break;
                         case 5:
                             System.out.println("\n--> Display unique student names");
+                            pr.sortByName();
                             pr.uniqueStudentName();
                             break;
                         default:

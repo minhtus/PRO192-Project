@@ -15,10 +15,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
-import java.util.TreeSet;
 
 /**
  *
@@ -223,7 +222,11 @@ public class Professor extends Person {
                     return false; // adding error
                 }
             }
+<<<<<<< HEAD
             br.close(); // close file after reading
+=======
+            br.close();
+>>>>>>> origin/Third
         } catch (FileNotFoundException ex) { // catch file not found, compile exception
             System.out.println("File not found!");
             return false;
@@ -370,16 +373,25 @@ public class Professor extends Person {
      * Display student who have highest grade
      */
     public void displayHigestGradeStudent() {
-        Student st = (Student) Collections.max(arr, Student.compareGrade);
-        System.out.println(st.toString());
+        System.out.println("Students who has highest grade: ");
+        Student st = (Student) Collections.min(arr, Student.compareGrade);//find max grade ( array sort descending)
+        for (int i = 0; i<arr.size(); ++i){
+            if ( st.getGrade() == ((Student)arr.get(i)).getGrade()){
+                System.out.println(((Student)arr.get(i)).toString());//Check if any others student have the same highest grade
+            }
+        }
     }
 
     /**
      * Display student who have lowest grade
      */
     public void displayLowestGradeStudent() {
-        Student st = (Student) Collections.min(arr, Student.compareGrade);
-        System.out.println(st.toString());
+        Student st = (Student) Collections.max(arr, Student.compareGrade);//find min grade ( array sort descending)
+        for (int i = 0; i<arr.size(); ++i){
+            if ( st.getGrade() == ((Student)arr.get(i)).getGrade()){
+                System.out.println(((Student)arr.get(i)).toString());//Check if any others student have the same highest grade
+            }
+        }
     }
     
     /**
@@ -389,9 +401,13 @@ public class Professor extends Person {
         System.out.print("Average grade of all students: ");
         double sum = 0;
         for ( int i = 0; i<arr.size(); ++i){
-            sum += ((Student)arr.get(i)).getGrade();
+            sum += ((Student)arr.get(i)).getGrade();//sum all grade of students
         }
+<<<<<<< HEAD
         System.out.format("%.2f\n", sum/(arr.size()));
+=======
+        System.out.println(sum/(arr.size()));//and then divide to number of students
+>>>>>>> origin/Third
     }
     
     /**
@@ -399,17 +415,85 @@ public class Professor extends Person {
      */
     public void displayDistributionOfGrade(){
         System.out.println("Distribution of grade: ");
-        TreeSet grades = new TreeSet();
+        HashMap<Double, Integer> grades = new HashMap();
         for ( int i = 0; i<arr.size(); ++i){
-            grades.add(((Student)arr.get(i)).getGrade());
+            grades.put(((Student)arr.get(i)).getGrade(), 0);//Put all grades in the HashMap
         }
-        Collections.sort((List<Student>) grades, Student.compareGrade);
-        Iterator it = grades.iterator();
-        while(it.hasNext())
-            System.out.println(it.next() + ", ");
-        
+        for ( int j = 0; j<arr.size(); ++j){
+            grades.put(((Student)arr.get(j)).getGrade(), grades.get(((Student)arr.get(j)).getGrade()) +1);//Count the frequency of each grade
+        }
+        Iterator it = grades.keySet().iterator();
+        while(it.hasNext()){
+            double key = (Double)(it.next());
+            int value = (Integer)(grades.get(key));
+            System.out.println("Grade " + key + " appears " + value + " times.");//Print out grades and its frequency
+        }
     }
-
+    
+/**
+ * Display distinct grade
+ */
+    public void displayDistinctGrade(){
+        System.out.println("Distinct grade: ");
+        HashMap<Double, Integer> grades = new HashMap();
+        for ( int i = 0; i<arr.size(); ++i){
+            grades.put(((Student)arr.get(i)).getGrade(), 0);//Put all grades in the HashMap
+        }
+        for ( int j = 0; j<arr.size(); ++j){
+            grades.put(((Student)arr.get(j)).getGrade(), grades.get(((Student)arr.get(j)).getGrade()) +1);//Count the frequency of each grade
+        }
+        Iterator it = grades.keySet().iterator();
+        while(it.hasNext()){
+            double key = (Double)(it.next());
+            int value = (Integer)(grades.get(key));
+            if ( value == 1 ){
+                System.out.println("Grade: " + key + " is distinct");//If a grade appear only 1 time, print it out
+            }
+        }
+    }
+    /**
+     * Display duplicate student name
+     */
+    public void dupStudentName(){
+        System.out.println("Duplicate student name in list: ");
+        HashMap<String, Integer> name = new HashMap();
+        for ( int i = 0; i<arr.size(); ++i){
+            name.put(arr.get(i).getName(), 0);//Put all name in the HashMap
+        }
+        for ( int j = 0; j<arr.size(); ++j){
+            name.put(arr.get(j).getName(), name.get(arr.get(j).getName()) +1);//Count the frequency of each name
+        }
+        Iterator it = name.keySet().iterator();
+        while(it.hasNext()){
+            String key = (String)(it.next());
+            int value = (Integer)(name.get(key));
+            if ( value >1){
+                System.out.println("Name: "  + key + " is duplicate " + value + " times.");//Print out which name appear more than 1 time
+            }
+        }
+    }
+    
+    /**
+     * Display unique student name
+     */
+    public void uniqueStudentName(){
+        System.out.println("Unique student name in list: ");
+        HashMap<String, Integer> name = new HashMap();
+        for ( int i = 0; i<arr.size(); ++i){
+            name.put(arr.get(i).getName(), 0);//Put all name in the HashMap
+        }
+        for ( int j = 0; j<arr.size(); ++j){
+            name.put(arr.get(j).getName(), name.get(arr.get(j).getName()) +1);//Count the frequency of each name
+        }
+        Iterator it = name.keySet().iterator();
+        while(it.hasNext()){
+            String key = (String)(it.next());
+            int value = (Integer)(name.get(key));
+            if ( value == 1){
+                System.out.println("Name: "  + key + " is unique");//Print out which name appear more than 1 time
+            }
+        }
+    }
     /**
      * #4 Additional Professor Method: Display students who have grades higher
      * or equal to 5 (average grade)

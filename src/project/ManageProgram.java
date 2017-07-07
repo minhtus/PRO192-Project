@@ -44,8 +44,8 @@ public class ManageProgram {
         menu.addSubMenu(5, "1. Display students sorted by student code");
         menu.addSubMenu(5, "2. Display students sorted by student name");
         menu.addSubMenu(5, "3. Display students sorted by student grade");
-        menu.addSubMenu(5, "4. Display high grade students");
-        menu.addSubMenu(5, "5. Display low grade students");
+        menu.addSubMenu(5, "4. Display highest grade students");
+        menu.addSubMenu(5, "5. Display lowest grade students");
         menu.addSubMenu(6, "1. Display average grade");
         menu.addSubMenu(6, "2. Display distribution of grade");
         menu.addSubMenu(6, "3. Display distinct grade");
@@ -166,15 +166,15 @@ public class ManageProgram {
                             break;
                         case 3:
                             System.out.println("\n--> Display distinct grade");
-                            
+                            pr.displayDistinctGrade();
                             break;
                         case 4:
                             System.out.println("\n--> Display duplicate student names");
-                            
+                            pr.dupStudentName();
                             break;
                         case 5:
                             System.out.println("\n--> Display unique student names");
-                            
+                            pr.uniqueStudentName();
                             break;
                         default:
                             System.out.println("\nNo option found");

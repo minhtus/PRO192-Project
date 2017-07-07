@@ -166,15 +166,15 @@ public class ManageProgram {
                             break;
                         case 3:
                             System.out.println("\n--> Display distinct grade");
-                            
+                            pr.displayDistinctGrade();
                             break;
                         case 4:
                             System.out.println("\n--> Display duplicate student names");
-                            
+                            pr.dupStudentName();
                             break;
                         case 5:
                             System.out.println("\n--> Display unique student names");
-                            
+                            pr.uniqueStudentName();
                             break;
                         default:
                             System.out.println("\nNo option found");

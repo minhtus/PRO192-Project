@@ -239,7 +239,7 @@ public class Professor extends Person {
         }
 
         this.arr.addAll(tmp);
-        System.out.println("All students from " + f.getName() + " have been added successful!");
+        System.out.println("All students from " + f.getName() + " have been added successfully!");
         return true;
     }
 

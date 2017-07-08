@@ -1,9 +1,10 @@
-PR001 | Dawson Parkinson | 4105 Norma Avenue, Dayton, OH, 45402 | 10 | 1200 | PROFESSOR | MASTER | 8
+PR001 | Dawson Parkinson | 4105 Norma Avenue, Dayton, OH, 45402 | 50 | 10000 | HONOR_PROFESSOR | DOCTOR | 9
+ST001 | Karen K Johnson | 19251 Old Trail Rd, Jasper, MO, 64755 | 9.9 | 1/1/2013
 ST002 | A Smith | 11347 Henderson Dr, Frisco, TX, 75035 | 4.0 | 1/1/2013
-ST007 | Fred O Smith | 916 Wind Shore Ct, Murrells Inlet, SC, 29576 | 4.2 | 1/1/2013
-ST011 | Harry Potter | 4 Privet Drive, England | 8.9 | 1/1/2016
-ST020 | Henry J. Watson | 221B Baker street, London, England | 9.0 | 10/10/2015
-ST009 | Jana S Smith | 15 Cottonwood Ln, Woodstock, NY, 12498 | 3.8 | 1/1/2016
-ST001 | Karen K Johnson | 19251 Old Trail Rd, Jasper, MO, 64755 | 7.7 | 1/1/2013
 ST006 | Monica Johnson | 5115 W Shumway Farm Rd, Laveen, AZ, 85339 | 5.0 | 1/1/2013
+ST007 | Fred O Smith | 916 Wind Shore Ct, Murrells Inlet, SC, 29576 | 4.2 | 1/1/2013
+ST008 | Felicia E Smith | 505 Lake Deerfield Rd, Hull, GA, 30646 | 7.5 | 1/1/2013
+ST009 | Jana S Smith | 15 Cottonwood Ln, Woodstock, NY, 12498 | 2.0 | 1/1/2016
 ST010 | Riley Johnson | 2775 Evans Rd NE, Bolivia, NC, 28422 | 9.9 | 1/1/2016
+ST011 | Harry Potter | 4 Privet Drive, England | 8.9 | 1/1/2016
+ST300 | J Smith | 1202 Bellune Dr, Cincinnati, OH, 45231 | 4.9 | 1/1/2015

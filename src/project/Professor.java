@@ -142,7 +142,7 @@ public class Professor extends Person {
      *
      * @param s Data string to parse to professor's fields
      * @return True if parsing successful
-     * @throws project.FormatException
+     * @throws project.FormatException wrong format - cannot parse to professor
      */
     public boolean parseProfessor(String s) throws FormatException {
         if (s == null || s.length() == 0) {

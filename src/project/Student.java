@@ -243,10 +243,14 @@ public class Student extends Person implements Comparable {
      * Check grade must be in range [0, 10]
      * @param g Grade to be checked
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @throws FormatException Grade is not valid
 =======
      * @throws FormatException 
 >>>>>>> TNhan
+=======
+     * @throws FormatException Grade is not valid
+>>>>>>> Third
      */
     public static void validGrade(Double g) throws FormatException {
         if (g < 0 || g > 10) throw new FormatException("Error: Grade must be in range: [0..10]!");

@@ -58,7 +58,11 @@ public class SimpleDate {
      * Parse a string to a SimpleDate object
      * @param s String to parse
      * @return A SimpleDate object
+<<<<<<< HEAD
      * @throws NumberFormatException if parsing number error
+=======
+     * @throws Exception if parsing number error
+>>>>>>> TNhan
      */
     public static SimpleDate parseSDate(String s) throws NumberFormatException {
         SimpleDate sd = new SimpleDate();
